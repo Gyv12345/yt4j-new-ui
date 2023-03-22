@@ -3,11 +3,17 @@ import { Notification } from '@arco-design/web-vue';
 import type { NotificationReturn } from '@arco-design/web-vue/es/notification/interface';
 import type { RouteRecordNormalized } from 'vue-router';
 import defaultSettings from '@/config/settings.json';
-import { getMenuList } from '@/api/user';
+// import { getMenuList } from '@/api/user';
+import { filterAsyncRoutes } from '@/utils';
 import { AppState } from './types';
 
+const isBack = localStorage.getItem('isBack');
+const backFlag = isBack === '1';
 const useAppStore = defineStore('app', {
-  state: (): AppState => ({ ...defaultSettings }),
+  state: (): AppState => ({
+    ...defaultSettings,
+    menuFromServer: backFlag,
+  }),
 
   getters: {
     appCurrentSetting(state: AppState): AppState {
@@ -52,8 +58,44 @@ const useAppStore = defineStore('app', {
           content: 'loading',
           closable: true,
         });
-        const { data } = await getMenuList();
-        this.serverMenu = data;
+        // const { data } = await getMenuList();
+        const menuData = [
+          {
+            path: '/dashboard',
+            name: 'dashboard',
+            component: 'LAYOUT',
+            meta: {
+              locale: 'menu.server.dashboard',
+              requiresAuth: true,
+              icon: 'icon-dashboard',
+              order: 1,
+            },
+            children: [
+              {
+                path: 'workplace',
+                name: 'Workplace',
+                component: '/views/dashboard/workplace/index',
+                meta: {
+                  locale: 'menu.server.workplace',
+                  requiresAuth: true,
+                  // hideInMenu: true,
+                },
+              },
+              {
+                path: 'monitor',
+                name: 'Monitor',
+                component: '/views/dashboard/monitor/index',
+                meta: {
+                  locale: 'menu.dashboard.monitor',
+                  requiresAuth: false,
+                },
+              },
+            ],
+          },
+        ];
+
+        this.serverMenu = filterAsyncRoutes(menuData);
+
         notifyInstance = Notification.success({
           id: 'menuNotice',
           content: 'success',

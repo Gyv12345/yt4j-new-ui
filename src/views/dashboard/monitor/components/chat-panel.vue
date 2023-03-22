@@ -11,6 +11,7 @@
       flexFlow: 'column',
     }"
   >
+    <div v-permission="'Monitor:add'" @click="changeHandle()">路由切换</div>
     <a-space :size="8">
       <a-select style="width: 86px" default-value="all">
         <a-option value="all">
@@ -46,8 +47,10 @@
   import { ref } from 'vue';
   import { queryChatList, ChatRecord } from '@/api/message';
   import useLoading from '@/hooks/loading';
+  import { useRouter } from 'vue-router';
   import ChatList from './chat-list.vue';
 
+  const router = useRouter();
   const { loading, setLoading } = useLoading(true);
   const chatData = ref<ChatRecord[]>([]);
   const fetchData = async () => {
@@ -61,6 +64,14 @@
     }
   };
   fetchData();
+  const changeHandle = () => {
+    console.log('aaaalllllll');
+    console.log(router.getRoutes());
+
+    router.push({
+      name: 'Workplace',
+    });
+  };
 </script>
 
 <style scoped lang="less">

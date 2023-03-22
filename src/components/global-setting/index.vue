@@ -36,6 +36,9 @@
   const { t } = useI18n();
   const { copy } = useClipboard();
   const visible = computed(() => appStore.globalSettings);
+  const isBack = localStorage.getItem('isBack');
+  const backFlag = isBack === '1';
+
   const contentOpts = computed(() => [
     { name: 'settings.navbar', key: 'navbar', defaultVal: appStore.navbar },
     {
@@ -48,7 +51,8 @@
     {
       name: 'settings.menuFromServer',
       key: 'menuFromServer',
-      defaultVal: appStore.menuFromServer,
+      // defaultVal: appStore.menuFromServer,
+      defaultVal: backFlag,
     },
     {
       name: 'settings.menuWidth',

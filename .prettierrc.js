@@ -5,5 +5,5 @@ module.exports = {
   singleQuote: true,
   quoteProps: 'consistent',
   htmlWhitespaceSensitivity: 'strict',
-  vueIndentScriptAndStyle: true,
+  vueIndentScriptAndStyle: true
 };

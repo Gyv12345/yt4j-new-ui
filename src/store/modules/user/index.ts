@@ -4,7 +4,7 @@ import {
   logout as userLogout,
   getUserInfo,
   LoginData,
-  loginApi,
+  // loginApi,
 } from '@/api/user';
 import { setToken, clearToken } from '@/utils/auth';
 import { removeRouteListener } from '@/utils/route-listener';
@@ -28,7 +28,7 @@ const useUserStore = defineStore('user', {
     registrationDate: undefined,
     accountId: undefined,
     certification: undefined,
-    role: '',
+    role: ['workBance', 'Monitor', 'Monitor:add'],
   }),
 
   getters: {
@@ -46,7 +46,7 @@ const useUserStore = defineStore('user', {
     },
     // Set user's information
     setInfo(partial: Partial<UserState>) {
-      this.$patch(partial);
+      this.$patch(partial); // 修改所有state参数
     },
 
     // Reset user's information
@@ -65,10 +65,7 @@ const useUserStore = defineStore('user', {
     async login(loginForm: LoginData) {
       try {
         // const res = await userLogin(loginForm);
-        const res = await loginApi(loginForm);
-        console.log('rrrrrr');
-        console.log(res);
-
+        const res = await userLogin(loginForm);
         setToken(res.data.token);
       } catch (err) {
         clearToken();

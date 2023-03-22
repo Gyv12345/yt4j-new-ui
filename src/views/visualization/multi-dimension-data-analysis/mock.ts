@@ -3,7 +3,7 @@ import setupMock, { successResponseWrap } from '@/utils/setup-mock';
 import { PostData } from '@/types/global';
 
 setupMock({
-  mock: false,
+  // mock: false,
   setup() {
     Mock.mock(new RegExp('/api/data-chain-growth'), (params: PostData) => {
       const { quota } = JSON.parse(params.body);

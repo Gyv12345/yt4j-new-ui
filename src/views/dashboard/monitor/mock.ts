@@ -6,7 +6,7 @@ import setupMock, {
 } from '@/utils/setup-mock';
 
 setupMock({
-  mock: false,
+  // mock: false,
   setup() {
     Mock.mock(new RegExp('/api/chat/list'), () => {
       // return failResponseWrap(null, '重新登陆', 50008);

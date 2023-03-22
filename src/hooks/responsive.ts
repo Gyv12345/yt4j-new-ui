@@ -4,7 +4,7 @@ import { useAppStore } from '@/store';
 import { addEventListen, removeEventListen } from '@/utils/event';
 
 const WIDTH = 992; // https://arco.design/vue/component/grid#responsivevalue
-
+// 适配手机端合桌面端
 function queryDevice() {
   const rect = document.body.getBoundingClientRect();
   return rect.width - 1 < WIDTH;

@@ -43,6 +43,9 @@
           return;
         }
         // Trigger router change
+        console.log('ggggggggg');
+        console.log(item.name);
+
         router.push({
           name: item.name,
         });
@@ -125,6 +128,9 @@
           }
           return nodes;
         }
+        console.log('eeeeeeeeeeeee');
+        console.log(menuTree);
+
         return travel(menuTree.value);
       };
 
@@ -153,6 +159,7 @@
       display: flex;
       align-items: center;
     }
+
     .arco-icon {
       &:not(.arco-icon-down) {
         font-size: 18px;

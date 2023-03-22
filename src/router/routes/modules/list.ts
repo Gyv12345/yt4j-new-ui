@@ -29,7 +29,7 @@ const LIST: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.list.cardList',
         requiresAuth: true,
-        roles: ['*'],
+        roles: ['xxx'],
       },
     },
   ],

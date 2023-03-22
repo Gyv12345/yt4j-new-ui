@@ -23,6 +23,16 @@ const USER: AppRouteRecordRaw = {
       },
     },
     {
+      path: 'menu',
+      name: 'Menu',
+      component: () => import('@/views/user/menu/index.vue'),
+      meta: {
+        locale: '菜单管理',
+        requiresAuth: true,
+        roles: ['*'],
+      },
+    },
+    {
       path: 'setting',
       name: 'Setting',
       component: () => import('@/views/user/setting/index.vue'),

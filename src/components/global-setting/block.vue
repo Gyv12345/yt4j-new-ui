@@ -36,6 +36,7 @@
       },
     },
   });
+
   const appStore = useAppStore();
   const handleChange = async ({
     key,
@@ -47,10 +48,18 @@
     if (key === 'colorWeak') {
       document.body.style.filter = value ? 'invert(80%)' : 'none';
     }
-    if (key === 'menuFromServer' && value) {
-      await appStore.fetchServerMenuConfig();
+    // if (key === 'menuFromServer' && value) {
+    if (key === 'menuFromServer') {
+      if (value) {
+        await appStore.fetchServerMenuConfig();
+        localStorage.setItem('isBack', '1');
+        window.location.reload();
+      } else {
+        localStorage.setItem('isBack', '0');
+        window.location.reload();
+      }
     }
-    appStore.updateSettings({ [key]: value });
+    // appStore.updateSettings({ [key]: value });
   };
 </script>
 

@@ -2,7 +2,9 @@
   <a-layout-footer class="footer">Arco Pro</a-layout-footer>
 </template>
 
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+  // 底部权限 版权信息组件
+</script>
 
 <style lang="less" scoped>
   .footer {

@@ -2,39 +2,76 @@
   <div class="container">
     <Breadcrumb :items="['menu.user', 'menu.user.info']" />
     <div>
-      <a-table :columns="columns" :data="data">
+      <a-table :columns="columns" :data="listData.data">
         <template #optional="{ record }">
-          <a-button @click="eidtHandle(record)">view</a-button>
+          <a-button @click="eidtHandle(record)">编辑</a-button>
+        </template>
+        <template #sex="{ record }">
+          <span v-if="record.sex == 1">男</span>
+          <span v-else>女</span>
         </template>
       </a-table>
+
+      <a-modal v-model:visible="visible" @ok="handleOk" @cancel="handleCancel">
+        <template #title> {{ title }} </template>
+        <div>
+          <a-form :model="form" :style="{ width: '400px' }">
+            <a-form-item field="name" label="姓名">
+              <a-input v-model="form.name" placeholder="请输入姓名" />
+            </a-form-item>
+            <a-form-item field="name" label="性别">
+              <a-select v-model="form.sex" placeholder="Please select ...">
+                <a-option value="0">女</a-option>
+                <a-option value="1">男</a-option>
+              </a-select>
+            </a-form-item>
+            <a-form-item field="name" label="电话">
+              <a-input v-model="form.phone" placeholder="请输入姓名" />
+            </a-form-item>
+            <a-form-item field="name" label="邮箱">
+              <a-input v-model="form.email" placeholder="请输入姓名" />
+            </a-form-item>
+          </a-form>
+        </div>
+      </a-modal>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-  // import { onMounted } from 'vue';
+  import { reactive, onMounted, ref } from 'vue';
   import { getUserList } from '@/api/user';
-  import useRequest from '@/hooks/request';
-
-  const defaultValue = {
-    pageNo: 0,
-    pageSize: 0,
+  // 列表
+  const listData = reactive({
+    data: [],
+  });
+  const getListData = () => {
+    getUserList({
+      pageNo: 1,
+      pageSize: 10,
+      condition: {},
+    }).then((res) => {
+      listData.data = res.data.data;
+    });
   };
-  const res = useRequest(getUserList, defaultValue);
-  console.log('-0--------');
-  console.log(res);
+
+  onMounted(() => {
+    getListData();
+  });
+
   const columns = [
     {
       title: '姓名',
-      dataIndex: 'name',
+      dataIndex: 'username',
     },
     {
       title: '性别',
-      dataIndex: 'salary',
+      dataIndex: 'sex',
+      slotName: 'sex',
     },
     {
       title: '电话',
-      dataIndex: 'address',
+      dataIndex: 'phone',
     },
     {
       title: '邮箱',
@@ -45,60 +82,26 @@
       slotName: 'optional',
     },
   ];
-  const data = [
-    {
-      key: '1',
-      name: 'Jane Doe',
-      first: 'Jane',
-      last: 'Doe',
-      salary: 23000,
-      address: '32 Park Road, London',
-      email: 'jane.doe@example.com',
-    },
-    {
-      key: '2',
-      name: 'Alisa Ross',
-      first: 'Alisa',
-      last: 'Ross',
-      salary: 25000,
-      address: '35 Park Road, London',
-      email: 'alisa.ross@example.com',
-    },
-    {
-      key: '3',
-      name: 'Kevin Sandra',
-      first: 'Kevin',
-      last: 'Sandra',
-      salary: 22000,
-      address: '31 Park Road, London',
-      email: 'kevin.sandra@example.com',
-    },
-    {
-      key: '4',
-      name: 'Ed Hellen',
-      first: 'Ed',
-      last: 'Hellen',
-      salary: 17000,
-      address: '42 Park Road, London',
-      email: 'ed.hellen@example.com',
-    },
-    {
-      key: '5',
-      name: 'William Smith',
-      first: 'William',
-      last: 'Smith',
-      salary: 27000,
-      address: '62 Park Road, London',
-      email: 'william.smith@example.com',
-    },
-  ];
+  // 弹框
+  const title = ref('编辑用户信息');
+  const visible = ref(false);
   const eidtHandle = (val) => {
-    console.log('????');
+    visible.value = true;
+    console.log('valllllllll');
     console.log(val);
   };
-  // onMounted(() => {
-  //   console.log('1111');
-  // });
+  const handleOk = () => {
+    visible.value = false;
+  };
+  const handleCancel = () => {
+    visible.value = false;
+  };
+  const form = reactive({
+    name: '',
+    sex: 0,
+    phone: '',
+    email: '',
+  });
 </script>
 
 <script lang="ts">

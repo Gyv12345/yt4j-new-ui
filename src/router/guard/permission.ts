@@ -10,6 +10,7 @@ export default function setupPermissionGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
     const appStore = useAppStore();
     const userStore = useUserStore();
+    // 判断路由权限  是否展示i等
     const Permission = usePermission();
     const permissionsAllow = Permission.accessRouter(to);
     if (appStore.menuFromServer) {
@@ -22,13 +23,17 @@ export default function setupPermissionGuard(router: Router) {
         !appStore.appAsyncMenus.length &&
         !WHITE_LIST.find((el) => el.name === to.name)
       ) {
+        // 获取 路由列表
         await appStore.fetchServerMenuConfig();
       }
+      // 后端路由+ 加白名路由
       const serverMenuConfig = [...appStore.appAsyncMenus, ...WHITE_LIST];
 
       let exist = false;
+      // 循环所有路由  判断当前路由是否存在
       while (serverMenuConfig.length && !exist) {
         const element = serverMenuConfig.shift();
+
         if (element?.name === to.name) exist = true;
 
         if (element?.children) {
@@ -43,6 +48,7 @@ export default function setupPermissionGuard(router: Router) {
     } else {
       // eslint-disable-next-line no-lonely-if
       if (permissionsAllow) next();
+      // 无权限菜单 进入第一个路由 或 404
       else {
         const destination =
           Permission.findFirstPermissionRoute(appRoutes, userStore.role) ||

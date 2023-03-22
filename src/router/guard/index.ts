@@ -11,7 +11,10 @@ function setupPageGuard(router: Router) {
 }
 
 export default function createRouteGuard(router: Router) {
+  // 监听路由
   setupPageGuard(router);
+  // 路由导航守卫
   setupUserLoginInfoGuard(router);
+  // 加载路由菜单
   setupPermissionGuard(router);
 }

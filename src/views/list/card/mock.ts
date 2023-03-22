@@ -152,7 +152,7 @@ const rulesPresetList: ServiceRecord[] = [
 ];
 
 setupMock({
-  mock: false,
+  // mock: false,
   setup() {
     // Quality Inspection
     Mock.mock(new RegExp('/api/list/quality-inspection'), () => {
